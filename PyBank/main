@@ -1,0 +1,23 @@
+import os
+import csv
+
+#file path
+datafile = os.path.join("budget_data.csv")
+
+# set variables
+MonthCount = 0 
+Total = 0
+PL = []
+monthList = []
+monthlyChanges = []
+
+with open(datafile) as csvfile:
+    csvreader = csv.reader(csvfile, delimiter=",")
+    # skip first row which contains headers
+    csvheader = next(csvreader)
+    
+    for row in csvreader:
+        MonthCount += 1
+        Total += 1
+        PL.append(row[1])
+        monthList.append(row[0])
