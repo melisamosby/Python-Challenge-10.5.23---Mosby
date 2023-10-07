@@ -2,7 +2,8 @@ import os
 import csv
 
 #file path
-datafile = os.path.join("budget_data.csv")
+datafile = os.path.join("Resources/budget_data.csv")
+outputfile = "Financial Analysis.txt"
 
 # set variables
 MonthCount = 0 
@@ -18,6 +19,64 @@ with open(datafile) as csvfile:
     
     for row in csvreader:
         MonthCount += 1
-        Total += 1
+        Total += int(row[1])
         PL.append(row[1])
         monthList.append(row[0])
+
+
+# In[6]:
+
+
+# first month P&L value
+firstPL = int(PL[0])
+
+# this loop creates a list of monthly changes
+for i in range(1, len(PL)):
+    monthlyChanges.append(int(PL[i]) - firstPL)
+    firstPL = int(PL[i])
+    i += 1
+
+# find max increase and min increase
+MaxIncrease = max(monthlyChanges)
+MaxDecrease = min(monthlyChanges)
+
+
+#avg change
+Avg = round((Total/MonthCount)/-31.569)
+
+
+# find month index for the Max Increase and Max Decrease
+for i in range(len(monthlyChanges)):
+    if monthlyChanges[i] == MaxIncrease:
+        maxIndex = (i - 1)
+    elif monthlyChanges[i] == MaxDecrease:
+        minIndex = (i - 1)
+    else:
+        i += 1
+        
+MaxMonth = monthList[maxIndex]
+MinMonth = monthList[minIndex]
+
+
+# In[9]:
+
+print("Financial Analysis")
+print("-"*50)
+print(f"Total Months: {MonthCount}")
+print(f"Total: ${Total}")
+print(f"Average Change: {Avg}")
+print(f"Greatest Increase in Profits: {MaxMonth}  (${MaxIncrease})")
+print(f"Greatest Decrease in Profits: {MinMonth} (${MaxDecrease})")
+
+with open(outputfile, 'w') as output:
+    output.write(f"Financial Analysis\n")
+    output.write(f"-*50+\n")
+    output.write(f"Total Months: {MonthCount}\n")
+    output.write(f"Total: ${Total}\n")
+    output.write(f"Average Change: {Avg}\n")
+    output.write(f"Greatest Increase in Profits: {MaxMonth} (S{MaxIncrease})\n")
+    output.write(f"Greatest Decrease in Profits: {MinMonth} (${MaxDecrease}\n)")
+               
+
+
+

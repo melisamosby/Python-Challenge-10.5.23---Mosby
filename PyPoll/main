@@ -3,7 +3,7 @@ import csv
 
 #file path
 datafile = os.path.join("Resources/election_data.csv")
-outputfile = "election_result.txt"
+outputfile = "Election_Result.txt"
 
 candidates = []
 pctCandidate = []
